@@ -1,0 +1,9 @@
+backend/bin/
+backend/obj/
+backend/.vs/
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,67 @@
+<h2>Pedidos</h2>
+
+<p class="error" *ngIf="error">{{error}}</p>
+
+<table *ngIf="orders.length > 0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Status</th>
+            <th>Itens</th>
+            <th>Total (centavos)</th>
+            <th>Criado em</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let o of orders; trackBy: trackById">
+            <td>{{ o.id }}</td>
+            <td>{{ o.customerName }} ({{o.customerId}})</td>
+            <td>{{ o.status }}</td>
+            <td>{{ o.itemsCount }}</td>
+            <td>{{ o.totalCents }}</td>
+            <td>{{ o.createdAt }}</td>
+            <td>
+                <button (click)="open(o.id)">Ver detalhe</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p *ngIf="orders.length === 0 && !error">Nenhum pedido encontrado.</p>
+
+<div *ngIf="selected" class="detail">
+    <h2>Pedido #{{selected.id}}</h2>
+
+    <p>Cliente: {{selected.customerName}} ({{selected.customerId}})</p>
+    <p>Status: {{selected.status}} </p>
+    <p>Total (centavos): {{selected.totalCents}} </p>
+    <p>Pago (centavos): {{selected.paidCents}} </p>
+    <p>Restante (centavos): {{selected.remainingCents}} </p>
+    <p>Criado em: {{selected.createdAt}} </p>
+
+    <h4>Itens</h4>
+
+    <table *ngIf="selected.items.length > 0">
+        <thead>
+            <tr>
+                <th>ID do Produto</th>
+                <th>Quantidade</th>
+                <th>Unitário</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of selected.items">
+                <td>{{i.productId}}</td>
+                <td>{{i.quantity}}</td>
+                <td>{{i.unitPriceCents}}</td>
+                <td>{{itemSubtotal(i)}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="secondary" (click)="close()">Fechar</button>
+</div>

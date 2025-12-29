@@ -8,7 +8,33 @@ export type Product = {
   category: string;
   priceCents: number;
   active: boolean;
-}
+};
+
+export type OrderSummary = {
+  id: number;
+  customerId: number;
+  customerName: string;
+  status: string;
+  createdAt: string;
+  itemsCount: number;
+  totalCents: number;
+};
+
+export type OrderDetail = {
+  id: number;
+  customerId: number;
+  customerName: string;
+  status: string;
+  createdAt: string;
+  totalCents: number;
+  paidCents: number;
+  remainingCents: number;
+  items: {
+    productId: number;
+    quantity: number;
+    unitPriceCents: number;
+  }[];
+};
 
 @Injectable({
   providedIn: 'root',
@@ -39,5 +65,13 @@ export class Api {
     return this.http.post<{order_id: number}>(
       `${this.baseUrl}/orders`, payload
     );
+  }
+
+  getOrders() {
+    return this.http.get<OrderSummary[]>(`${this.baseUrl}/orders`);
+  }
+
+  getOrdersById(id: number) {
+    return this.http.get<OrderDetail>(`${this.baseUrl}/orders/${id}`);
   }
 }

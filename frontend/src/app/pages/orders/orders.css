@@ -1,0 +1,45 @@
+h2 {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+table {
+    background-color: whitesmoke;
+    width: 70%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+thead {
+    background-color: whitesmoke;
+}
+
+th, td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.detail {
+    width: 80%;
+    margin: 24px auto 0 auto;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+}
+
+button {
+    padding: 6px 12px; 
+    cursor: pointer;
+}
+
+button.secondary {
+    background-color: rgb(217, 139, 13);
+}

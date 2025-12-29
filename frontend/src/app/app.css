@@ -1,0 +1,19 @@
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px 0;
+    margin-bottom: 24px;
+    background-color: whitesmoke;
+    border-bottom: 1px solid #ddd;
+}
+
+.nav {
+    text-decoration: none;
+    padding: 6px 12px;
+    color: #000;
+    border: 1px solid #ddd;
+    background-color: whitesmoke;
+    border-radius: 4px;
+    cursor: pointer;
+}

@@ -64,10 +64,12 @@ export class Products implements OnInit {
     this.api.getProducts(this.search, this.onlyActive).subscribe({
       next: (data) => {
         this.products = data.sort((a,b) => a.id - b.id);
-        this.Categories(data);
+        this.Categories(this.products);
+        Promise.resolve().then(() => this.cdr.detectChanges());
       },
       error: () => {
         this.error = 'Erro ao carregar produtos.';
+        Promise.resolve().then(() => this.cdr.detectChanges());
       }
     });
   }

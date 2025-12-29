@@ -89,3 +89,8 @@ th, td {
     align-items: center;
     justify-content: space-between;
 }
+
+.orderSucess {
+    text-align: center;
+    color: green;
+}

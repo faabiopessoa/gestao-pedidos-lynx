@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Api, Product } from '../../services/api';
@@ -27,7 +27,10 @@ export class Products implements OnInit {
   selectedCategory = '';
   cart: Cart[] = [];
 
-  constructor(private api: Api) {}
+  orderError = '';
+  createdOrderId: number | null = null;
+
+  constructor(private api: Api, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
       this.loadProducts();
@@ -86,6 +89,7 @@ export class Products implements OnInit {
 
   addToCart(p: Product) {
     if (!p.active) return;
+    this.createdOrderId = null;
 
     const existing = this.cart.find(i => i.productId === p.id);
     if (existing) {
@@ -129,4 +133,30 @@ export class Products implements OnInit {
   get cartTotal(): number {
     return this.cart.reduce((sum, i) => sum + (i.unitPriceCents * i.quantity), 0);
   }
+
+  finalizeOrder() {
+    this.orderError = '';
+    this.createdOrderId = null;
+
+    const payload = {
+      customerId: 1,
+      items: this.cart.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity
+      }))
+    };
+
+    this.api.createOrder(payload).subscribe({
+      next: (res: any) => {
+        this.createdOrderId = Number(res.order_id);
+
+        Promise.resolve().then(() => {
+          this.cdr.detectChanges();
+          this.clearCart();
+          this.cdr.detectChanges();
+        })
+      }
+    });
+  }
+
 }

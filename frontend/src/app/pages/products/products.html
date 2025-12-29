@@ -47,7 +47,7 @@
 <p *ngIf="!error && products.length === 0" class="error">Nenhum produto encontrado.</p>
 
 <h2 class="cart">Carrinho</h2>
-
+<p class="error" *ngIf="orderError">{{orderError}}</p>
 <p *ngIf="cart.length === 0" class="empty">Carrinho vazio.</p>
 
 <table *ngIf="cart.length > 0">
@@ -85,5 +85,11 @@
 
 <div *ngIf="cart.length > 0" class="cart-footer">
     <strong>Total: {{ cartTotal}}</strong>
+    <button (click)="finalizeOrder()">Finalizar pedido</button>
     <button class="secondary" (click)="clearCart()">Limpar carrinho</button>
 </div>
+
+<p *ngIf="createdOrderId !== null" class="orderSucess">
+    Pedido criado com sucesso! <br />
+    Número do pedido: {{ createdOrderId }}
+</p>

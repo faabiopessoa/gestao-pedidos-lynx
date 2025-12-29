@@ -32,4 +32,12 @@ export class Api {
 
     return this.http.get<Product[]>(`${this.baseUrl}/products`, { params });
   }
+
+  createOrder(payload: {
+    customerId: number; items: {productId: number; quantity: number}[];
+  }) {
+    return this.http.post<{order_id: number}>(
+      `${this.baseUrl}/orders`, payload
+    );
+  }
 }

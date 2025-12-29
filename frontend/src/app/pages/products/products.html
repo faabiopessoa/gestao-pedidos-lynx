@@ -1,0 +1,89 @@
+<h2>Produtos</h2>
+
+<div class="toolbar">
+    <input type="text" placeholder="Buscar produto" [(ngModel)]="search" (keydown.enter)="onSearch()"/>
+
+    <button (click)="onSearch()">Buscar</button>
+    <button class="secondary" (click)="onClear()">Limpar</button>
+    <label>Categoria</label>
+    <select [(ngModel)]="selectedCategory">
+        <option value="">Todas</option>
+        <option *ngFor="let c of categories" [value]="c">{{c}}</option>
+    </select>
+    <label class="checkbox">
+        <input type="checkbox" [(ngModel)]="onlyActive" (change)="onOnlyActiveChange()"/>Somente Ativos
+    </label>
+
+</div>
+
+<p class="error" *ngIf="error">{{error}}</p>
+
+<table *ngIf="products.length > 0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço (Centavos)</th>
+            <th>Ativo</th>
+            <th>Carrinho</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let p of filteredProducts">
+            <td>{{ p.id }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.category }}</td>
+            <td>{{ p.priceCents }}</td>
+            <td>{{ p.active ? 'Sim' : 'Não' }}</td>
+            <td>
+                <button (click)="addToCart(p)" [disabled]="!p.active">Adicionar ao carrinho</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p *ngIf="!error && products.length === 0" class="error">Nenhum produto encontrado.</p>
+
+<h2 class="cart">Carrinho</h2>
+
+<p *ngIf="cart.length === 0" class="empty">Carrinho vazio.</p>
+
+<table *ngIf="cart.length > 0">
+    <thead>
+        <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Unitário</th>
+            <th>Subtotal</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="let item of cart">
+            <td>{{item.name}}</td>
+
+            <td>
+                <div class="qty-controls">
+                    <button (click)="decrease(item)">-</button>
+                    <span class="qty">{{item.quantity}}</span>
+                    <button (click)="increase(item)">+</button>
+                </div>
+            </td>
+            
+            <td>{{item.unitPriceCents}}</td>
+            <td>{{cartSubtotal(item)}}</td>
+
+            <td>
+                <button class="terciary" (click)="remove(item)">Remover produto</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf="cart.length > 0" class="cart-footer">
+    <strong>Total: {{ cartTotal}}</strong>
+    <button class="secondary" (click)="clearCart()">Limpar carrinho</button>
+</div>
